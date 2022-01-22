@@ -5,5 +5,5 @@
 - Build
     - `mkdir build && cd build`
     - `source /opt/pacbrew/ps4/openorbis/ps4vars.sh`
-    - `orbis-cmake -G "Unix Makefiles" ../`
+    - `openorbis-cmake -G "Unix Makefiles" ../`
     - `make ps4_openorbis_test_pkg`
