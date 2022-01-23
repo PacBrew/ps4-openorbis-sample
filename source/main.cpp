@@ -11,19 +11,15 @@
 #include "test_ffmpeg.h"
 
 static void orbis_printf(const char *fmt, ...) {
-
     va_list args;
     char str[1024];
-
     va_start(args, fmt);
     vsnprintf(str, sizeof(str), fmt, args);
     va_end(args);
-
     sceKernelDebugOutText(0, str);
 }
 
 void test_zlib() {
-
     orbis_printf("testing zlib...\n");
 
     gzFile fi = gzopen("/data/file.gz", "wb");
@@ -39,7 +35,6 @@ static size_t write_string_cb(void *buf, size_t len, size_t count, void *stream)
 }
 
 void test_curl() {
-
     CURL *curl;
     CURLcode res;
     std::string data;
@@ -55,7 +50,7 @@ void test_curl() {
     curl_global_init(CURL_GLOBAL_ALL);
     curl = curl_easy_init();
     if (curl) {
-        curl_easy_setopt(curl, CURLOPT_URL, "http://pacbrew.mydedibox.fr/");
+        curl_easy_setopt(curl, CURLOPT_URL, "https://www.google.com/robots.txt");
         curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, write_string_cb);
         curl_easy_setopt(curl, CURLOPT_WRITEDATA, &data);
         curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, false);
@@ -80,13 +75,13 @@ void test_ffmpeg() {
 int main() {
 
     // test zlib
-    test_zlib();
+    //test_zlib();
 
     // test curl
     test_curl();
 
     // test ffmpeg
-    test_ffmpeg();
+    //test_ffmpeg();
 
     while (1) {
         sceKernelUsleep(2 * 1000000);
