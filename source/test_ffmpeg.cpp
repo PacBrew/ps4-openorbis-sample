@@ -4,11 +4,15 @@
 
 // https://github.com/FFmpeg/FFmpeg/blob/master/doc/examples/decode_video.c
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
 
+extern "C" {
 #include <libavcodec/avcodec.h>
+}
+
+extern void orbis_printf(const char *fmt, ...);
 
 #define INBUF_SIZE 4096
 
@@ -31,7 +35,7 @@ static void decode(AVCodecContext *dec_ctx, AVFrame *frame, AVPacket *pkt,
 
     ret = avcodec_send_packet(dec_ctx, pkt);
     if (ret < 0) {
-        fprintf(stderr, "Error sending a packet for decoding\n");
+        orbis_printf("Error sending a packet for decoding\n");
         exit(1);
     }
 
@@ -40,11 +44,11 @@ static void decode(AVCodecContext *dec_ctx, AVFrame *frame, AVPacket *pkt,
         if (ret == AVERROR(EAGAIN) || ret == AVERROR_EOF)
             return;
         else if (ret < 0) {
-            fprintf(stderr, "Error during decoding\n");
+            orbis_printf("Error during decoding\n");
             exit(1);
         }
 
-        printf("saving frame %3d\n", dec_ctx->frame_number);
+        orbis_printf("saving frame %3d\n", dec_ctx->frame_number);
         fflush(stdout);
 
         /* the picture is allocated by the decoder. no need to
@@ -77,19 +81,19 @@ int ffmpeg_video_decode(const char *filename, const char *outfilename) {
     /* find the MPEG-1 video decoder */
     codec = avcodec_find_decoder(AV_CODEC_ID_MPEG1VIDEO);
     if (!codec) {
-        fprintf(stderr, "Codec not found\n");
+        orbis_printf("Codec not found\n");
         exit(1);
     }
 
     parser = av_parser_init(codec->id);
     if (!parser) {
-        fprintf(stderr, "parser not found\n");
+        orbis_printf("parser not found\n");
         exit(1);
     }
 
     c = avcodec_alloc_context3(codec);
     if (!c) {
-        fprintf(stderr, "Could not allocate video codec context\n");
+        orbis_printf("Could not allocate video codec context\n");
         exit(1);
     }
 
@@ -99,19 +103,19 @@ int ffmpeg_video_decode(const char *filename, const char *outfilename) {
 
     /* open it */
     if (avcodec_open2(c, codec, NULL) < 0) {
-        fprintf(stderr, "Could not open codec\n");
+        orbis_printf("Could not open codec\n");
         exit(1);
     }
 
     f = fopen(filename, "rb");
     if (!f) {
-        fprintf(stderr, "Could not open %s\n", filename);
+        orbis_printf("Could not open %s\n", filename);
         exit(1);
     }
 
     frame = av_frame_alloc();
     if (!frame) {
-        fprintf(stderr, "Could not allocate video frame\n");
+        orbis_printf("Could not allocate video frame\n");
         exit(1);
     }
 
@@ -127,7 +131,7 @@ int ffmpeg_video_decode(const char *filename, const char *outfilename) {
             ret = av_parser_parse2(parser, c, &pkt->data, &pkt->size,
                                    data, data_size, AV_NOPTS_VALUE, AV_NOPTS_VALUE, 0);
             if (ret < 0) {
-                fprintf(stderr, "Error while parsing\n");
+                orbis_printf("Error while parsing\n");
                 exit(1);
             }
             data += ret;

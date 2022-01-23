@@ -10,7 +10,7 @@
 #include <curl/curl.h>
 #include "test_ffmpeg.h"
 
-static void orbis_printf(const char *fmt, ...) {
+void orbis_printf(const char *fmt, ...) {
     va_list args;
     char str[1024];
     va_start(args, fmt);
@@ -69,19 +69,19 @@ void test_curl() {
 }
 
 void test_ffmpeg() {
-    ffmpeg_video_decode("/data/test.mpg", "/data/test.pgm");
+    ffmpeg_video_decode("/app0/test.mpg", "/data/test.pgm");
 }
 
 int main() {
 
     // test zlib
-    //test_zlib();
+    test_zlib();
 
     // test curl
     test_curl();
 
     // test ffmpeg
-    //test_ffmpeg();
+    test_ffmpeg();
 
     while (1) {
         sceKernelUsleep(2 * 1000000);

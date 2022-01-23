@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.0)
-#set(CMAKE_VERBOSE_MAKEFILE ON)
+set(CMAKE_VERBOSE_MAKEFILE ON)
 
 project(ps4_openorbis_test)
 
@@ -12,7 +12,6 @@ add_pkg(ps4_openorbis_test ${CMAKE_SOURCE_DIR}/data "PACB00001" "pacbrew openorb
 target_link_libraries(ps4_openorbis_test
         SceSysUtil
         SceSysmodule
-        SceSystemService
         SceNet curl mbedtls mbedx509 mbedcrypto
         swscale swresample avformat avfilter avcodec avutil
         z
