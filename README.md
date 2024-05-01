@@ -1,9 +1,7 @@
 # PacBrew openorbis sample
 
-- Install openorbis toolchain and portlibs
-  ```
-  sudo pacbew-pacman -S ps4-openorbis ps4-openorbis-portlibs
-  ```
+- Install openorbis ps4 toolchain and portlibs
+  - see [pacbrew-packages](https://github.com/PacBrew/pacbrew-packages) readme
 - Build
   ```
   mkdir cmake-build && cd cmake-build
